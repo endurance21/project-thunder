@@ -164,6 +164,7 @@ const App = () => {
 
   useEffect(() => {
     window.scroll(0, 0);
+    if(user)
     getAllPosts();
 
   }, []);
