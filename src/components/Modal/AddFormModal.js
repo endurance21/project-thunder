@@ -7,6 +7,8 @@ import PostAddIcon from "@mui/icons-material/PostAdd";
 import "./AddFormModal.css";
 import axios from "axios";
 
+import { Spin, Alert } from 'antd';
+
 const SERVER_ADDRESS = "https://project-brew.herokuapp.com/" ;
 
 const api = SERVER_ADDRESS + "/forum/v1/createPost";
@@ -31,6 +33,7 @@ export default function BasicModal({ getAllPosts }) {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [selectedImage, setSelectedImage] = useState(null);
+  const [loading, setLoading] = useState(false);
 
   const user = JSON.parse(localStorage.getItem("user"));
   const token = localStorage.getItem("token");
@@ -73,6 +76,7 @@ console.log({user})
     // data.append("", "");
 
     try {
+      setLoading(true)
       let response = await axios({
         method: "post",
         url: api,
@@ -82,6 +86,7 @@ console.log({user})
           Authorization: "Bearer " + token,
         },
       });
+      setLoading(false)
 
       console.log(response);
 
@@ -103,11 +108,13 @@ console.log({user})
         // Something happened in setting up the request that triggered an Error
         console.log("Error", error.message);
       }
+      setLoading(false)
     }
   };
 
   return (
     <div className="main-modal">
+      
       <Button
         onClick={handleOpen}
         variant="contained"
@@ -115,12 +122,19 @@ console.log({user})
       >
         <PostAddIcon />
       </Button>
+
       <Modal
         open={open}
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
       >
         <Box className="modal-container" sx={style}>
+{loading ?
+      <div className="nb-spinner">
+
+      <Spin spinning={loading} size="large"  ></Spin>
+      </div> :
+      <div>
           <header className="title">Start a new discussion</header>
 
           <div style={{ fontSize: "120%" }}>
@@ -158,7 +172,7 @@ console.log({user})
               <input hidden accept="image/*" multiple type="file" />
             </Button>
           </div> */}
-          {selectedImage && (
+          {/* {selectedImage && (
             <div>
               <img
                 alt="not fount"
@@ -180,7 +194,7 @@ console.log({user})
               multiple
               onChange={(e) => handleImgUpload(e)}
             />
-          </Button>
+          </Button> */}
 
           <div className="finalButton">
             <Button variant="contained" color="error" onClick={handleClose}>
@@ -196,6 +210,7 @@ console.log({user})
               Post
             </Button>
           </div>
+          </div>}
         </Box>
       </Modal>
     </div>
