@@ -27,17 +27,18 @@
     top: 0;
     left: 0;
     right: 0;
-    margin-top: -10px;
+    /* margin-top: -10px;
     margin-left: -10px;
     margin-right: -10px;
-    margin-bottom: 10px;
+    margin-bottom: 10px; */
     background-color: white;
     color: #464646;
     font-size: 30px;
     line-height: 0.0rem;
     opacity: 1;
     z-index: 500;
-    border-bottom: 1px solid gray;
+    /* border-bottom: 1px solid gray; */
+    box-shadow: 0.1rem 0.1rem 0.1rem grey;
 }
 
 #title {

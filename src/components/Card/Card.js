@@ -6,6 +6,7 @@ import ThumbUpOffAltIcon from "@mui/icons-material/ThumbUpOffAlt";
 import CommentOutlinedIcon from "@mui/icons-material/CommentOutlined";
 import ShareIcon from "@mui/icons-material/Share";
 import ThumbUpAltIcon from '@mui/icons-material/ThumbUpAlt'
+import ThumbUpIcon from '@mui/icons-material/ThumbUp';
 import moment from 'moment';
 
 import { Spin, Alert } from 'antd';
@@ -95,7 +96,7 @@ const Card = (props) => {
     }
 
     try{
-
+      setLoading(true)
       await axios({
         url:urls,
         method: 'POST',
@@ -104,6 +105,8 @@ const Card = (props) => {
         },
         data: body,
       })
+      props.getAllPosts();
+      setLoading(false)
     }
     catch(error){
       console.log("failed");
@@ -122,12 +125,14 @@ const Card = (props) => {
         // Something happened in setting up the request that triggered an Error
         console.log("Error", error.message);
       }
-
+      setLoading(false)
     }
 
 
   }
-  console.log("----" ,{props})
+
+let isMylike = props.value.likedBy.find(item =>item==user.userId) ;
+let numberOfComments = 0 ;
 
 
   return (
@@ -148,14 +153,14 @@ const Card = (props) => {
                 <div className="data" >
                   <Avatar alt="Cindy Baker" src={userDetail.image_url} />
                   <div className="info">
-                    <h3>{userDetail.name}</h3>
-                    <p>{moment(dateofPost).format('MMMM Do YYYY, h:mm:ss a')}</p>
+                    <h3 style={{marginBottom:"1px"}}>{userDetail.name}</h3>
+                    <p style={{marginBottom:"1px", fontSize:".8rem"}}>{moment(dateofPost).format('MMMM Do YYYY, h:mm:ss a')}</p>
                   </div>
                 </div>
-                <div className="follow">
+                {/* <div className="follow">
                   <Button variant="outlined">+ Follow</Button>
                   <MoreVertIcon />
-                </div>
+                </div> */}
               </div>
 
               {/* <div> */}
@@ -168,15 +173,18 @@ const Card = (props) => {
               {/* No.of likes/response */}
               <div className="updation">
                 <div className="like-update">{props.value.likedBy.length} likes</div>
-                <div className="comment-update">{props.value.noOfComments} comments</div>
+                <div className="comment-update">{numberOfComments} comments</div>
               </div>
             </div>
             {/* Like,comment and share */}
 
             <div className="container-1">
-              <Button variant="" className="like" onClick={handleClick}>
-                <ThumbUpAltIcon style={{ marginRight: '1rem' }} />
-                {like ? <div>Liked</div> : <div>Like</div>}
+              <Button variant="" className="like" onClick={handleClick} style={{color:"black"}}>
+                {
+                  isMylike ? <ThumbUpIcon  style={{ marginRight: '1rem',color:"blue" }}/> :<ThumbUpAltIcon style={{ marginRight: '1rem' }} />
+                }
+                
+                {like ? "Liked" : "Like"}
               </Button>
               <Button variant="" className="comment" onClick={() => props.setActive(props.value.postId)}>
                 <CommentOutlinedIcon id="commentIcon" />

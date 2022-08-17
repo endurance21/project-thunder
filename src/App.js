@@ -197,11 +197,9 @@ const App = () => {
 
       {user && (
         <div>
-          <Header />
-          <div>
-            <button onClick={logout}>logout</button>
-          </div>
-          <div style={{ display: "flex" }}>
+          <Header logout={logout} user={user}/>
+      
+          <div style={{ display: "flex", padding:"10px" , background:""}}>
             <div style={{ width: "100%"}}>
               {posts.map((post) => {
                 return (
@@ -210,6 +208,7 @@ const App = () => {
                       key={post.postId}
                       value={post}
                       setActive={setActive}
+                      getAllPosts={getAllPosts}
                       className="card classname"
                     />
                   </div>
