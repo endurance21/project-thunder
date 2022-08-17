@@ -201,7 +201,7 @@ const App = () => {
           <Header logout={logout} user={user}/>
       
           <div style={{ display: "flex", padding:"10px" , background:""}}>
-            <div style={{ width: "100%"}}>
+            <div style={{ width: "100%", height:"95vh", overflow:"auto"}}>
               {posts.map((post) => {
                 return (
                   <div key={post.postId}>
