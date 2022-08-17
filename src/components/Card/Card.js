@@ -29,7 +29,7 @@ const Card = (props) => {
   let user = JSON.parse(localStorage.getItem("user"))
 
   async function fetchDetails() {
-    console.log({ props })
+    // console.log({ props })
     if (props?.value?.userId) {
 
       let url = SERVER_ADDRESS + "forum/v1/user/" + props.value.userId;

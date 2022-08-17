@@ -32,12 +32,12 @@ export default function BasicModal({ getAllPosts }) {
   const [description, setDescription] = useState("");
   const [selectedImage, setSelectedImage] = useState(null);
 
-  const user = localStorage.getItem("user");
+  const user = JSON.parse(localStorage.getItem("user"));
   const token = localStorage.getItem("token");
   let userId = null;
-
+console.log({user})
   if (user) {
-    userId = JSON.parse(user).userId;
+    userId = user.userId;
     // console.log(userId);
   }
 

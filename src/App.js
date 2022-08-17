@@ -32,8 +32,11 @@ const App = () => {
   }, []);
 
   useEffect(() => {
+
     if (user) {
+      getAllPosts()
       document.getElementById("signInDiv").hidden = true;
+
     } else {
       /* global google */
 
@@ -42,6 +45,11 @@ const App = () => {
           "693462110352-tf62k67vg2fokedt87ior7sroecpev7l.apps.googleusercontent.com",
         callback: handleCallbackResponse,
       });
+      // window.google?.accounts.id.prompt((notification) => {
+      //   if (notification.isNotDisplayed() || notification.isSkippedMoment()) {
+      //     // continue with another identity provider.
+      //   }
+      // });
       window.google?.accounts.id.renderButton(
         document.getElementById("signInDiv"),
         {
@@ -50,7 +58,11 @@ const App = () => {
         }
       );
       document.getElementById("signInDiv").hidden = false;
-      window.google?.accounts.id.prompt();
+     let t = document.getElementById("credential_picker_container")
+     if(t){
+      t.style.display ="none"
+     }
+      // window.google?.accounts.id.prompt();
     }
   }, [user]);
 
@@ -64,7 +76,7 @@ const App = () => {
   }
 
   function syncToLocalStorage() {
-    let user = localStorage.getItem("user");
+    let user = JSON.parse(localStorage.getItem("user"));
     // console.log({ user });
     if (!user) {
       setUser(null);
@@ -136,7 +148,16 @@ const App = () => {
       },
     });
     // console.log(data);
-    setPosts(data);
+
+    console.log({data})
+    let sortedData = data.sort(
+      (p1, p2)=>{
+        return p2.createdDate - p1.createdDate ;
+      }
+    )
+    console.log({sortedData})
+
+    setPosts(sortedData);
   };
 
 
